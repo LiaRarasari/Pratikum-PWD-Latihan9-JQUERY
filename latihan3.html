@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latihan 3 - Data Pembeli</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #dff3ff, #fff5c7);
+            min-height: 100vh;
+            padding: 30px 15px;
+            color: #4f6575;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .flower {
+            position: fixed;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: float 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .flower1 {
+            top: 30px;
+            left: 30px;
+        }
+
+        .flower2 {
+            top: 120px;
+            right: 40px;
+            animation-delay: 1s;
+        }
+
+        .flower3 {
+            bottom: 40px;
+            left: 50px;
+            animation-delay: 2s;
+        }
+
+        .butterfly {
+            position: fixed;
+            font-size: 25px;
+            animation: fly 5s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .butterfly1 {
+            top: 50%;
+            left: 10px;
+        }
+
+        .butterfly2 {
+            bottom: 20%;
+            right: 15px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fly {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #2a6291;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #7791a3;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(90, 140, 170, 0.15);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            color: #2a6291;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+            color: #557488;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #dcecf5;
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #75baf0;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .error {
+            display: none;
+            color: #e47777;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #5ca7df;
+            transform: translateY(-2px);
+        }
+
+        #btnReset {
+            background: #f5c96a;
+            color: #66501c;
+        }
+
+        #btnReset:hover {
+            background: #eab957;
+        }
+
+        #successMessage {
+            display: none;
+            margin-top: 20px;
+            padding: 13px;
+            background: #e4f7e9;
+            color: #4c8a5b;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        #dataPembeli {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f3f9fd;
+            border-radius: 15px;
+            display: none;
+        }
+
+        #dataPembeli h3 {
+            margin-top: 0;
+            color: #2a6291;
+        }
+
+        #dataPembeli p {
+            margin: 8px 0;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover {
+            background: #5ca7df;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flower flower1">🌸</div>
+    <div class="flower flower2">🌼</div>
+    <div class="flower flower3">🌷</div>
+
+    <div class="butterfly butterfly1">🦋</div>
+    <div class="butterfly butterfly2">🦋</div>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Latihan 3</h1>
+            <p>Form Data Pembeli dengan Validasi</p>
+        </div>
+
+        <div class="card">
+
+            <h2>Data Pembeli</h2>
+
+            <form id="buyerForm">
+
+                <div class="form-group">
+                    <label for="namaPembeli">Nama Pembeli</label>
+                    <input type="text" id="namaPembeli" placeholder="Masukkan nama pembeli">
+                    <div class="error" id="errNama">
+                        Nama pembeli harus diisi.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="alamatPembeli">Alamat</label>
+                    <textarea id="alamatPembeli" placeholder="Masukkan alamat lengkap"></textarea>
+                    <div class="error" id="errAlamat">
+                        Alamat harus diisi.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="teleponPembeli">Nomor Telepon</label>
+                    <input type="text" id="teleponPembeli" placeholder="Masukkan nomor telepon">
+                    <div class="error" id="errTelepon">
+                        Nomor telepon harus diisi.
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit">Simpan Data</button>
+                    <button type="button" id="btnReset">Reset</button>
+                </div>
+
+            </form>
+
+            <div id="successMessage">
+                Data pembeli berhasil disimpan.
+            </div>
+
+            <div id="dataPembeli">
+                <h3>Data Pembeli Tersimpan</h3>
+
+                <p>
+                    <strong>Nama:</strong>
+                    <span id="hasilNama"></span>
+                </p>
+
+                <p>
+                    <strong>Alamat:</strong>
+                    <span id="hasilAlamat"></span>
+                </p>
+
+                <p>
+                    <strong>Telepon:</strong>
+                    <span id="hasilTelepon"></span>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="navigation">
+            <a href="index.html">Kembali ke Profil</a>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#buyerForm').submit(function(e) {
+
+                e.preventDefault();
+
+                let valid = true;
+
+                const nama = $('#namaPembeli').val().trim();
+                const alamat = $('#alamatPembeli').val().trim();
+                const telepon = $('#teleponPembeli').val().trim();
+
+                if (nama === '') {
+                    $('#errNama').show();
+                    valid = false;
+                } else {
+                    $('#errNama').hide();
+                }
+
+                if (alamat === '') {
+                    $('#errAlamat').show();
+                    valid = false;
+                } else {
+                    $('#errAlamat').hide();
+                }
+
+                if (telepon === '') {
+                    $('#errTelepon').show();
+                    valid = false;
+                } else {
+                    $('#errTelepon').hide();
+                }
+
+                if (valid) {
+
+                    $('#hasilNama').text(nama);
+                    $('#hasilAlamat').text(alamat);
+                    $('#hasilTelepon').text(telepon);
+
+                    $('#successMessage')
+                        .fadeIn()
+                        .delay(2000)
+                        .fadeOut();
+
+                    $('#dataPembeli').slideDown();
+                }
+            });
+
+            $('#btnReset').click(function() {
+
+                $('#buyerForm')[0].reset();
+
+                $('.error').hide();
+
+                $('#successMessage').hide();
+
+                $('#dataPembeli').slideUp();
+            });
+
+        });
+    </script>
+
+</body>
+</html>

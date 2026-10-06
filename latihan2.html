@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Latihan 2 - Riwayat Pembelian</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #dff4ff, #fff4c7);
+            color: #35516b;
+            overflow-x: hidden;
+        }
+
+        .flower,
+        .butterfly {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .flower {
+            font-size: 35px;
+            animation: floatFlower 4s ease-in-out infinite;
+        }
+
+        .butterfly {
+            font-size: 32px;
+            animation: fly 6s ease-in-out infinite;
+        }
+
+        .flower1 {
+            top: 8%;
+            left: 5%;
+        }
+
+        .flower2 {
+            bottom: 10%;
+            right: 6%;
+            animation-delay: 1s;
+        }
+
+        .butterfly1 {
+            top: 15%;
+            right: 10%;
+        }
+
+        .butterfly2 {
+            bottom: 15%;
+            left: 8%;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatFlower {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes fly {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(20px, -15px) rotate(8deg);
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 50px auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+            color: #2a6291;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #66849b;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(80, 130, 170, 0.15);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #2a6291;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #d7eaf5;
+            border-radius: 12px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #75baf0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: #5ca7df;
+        }
+
+        .btn-reset {
+            background: #f0c95c;
+            color: #5f4d16;
+        }
+
+        .btn-reset:hover {
+            background: #e7b83f;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #e4f8e9;
+            color: #367347;
+            font-weight: 600;
+        }
+
+        .riwayat-item {
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 15px;
+            background: #f5fbff;
+            border-left: 5px solid #75baf0;
+        }
+
+        .riwayat-item strong {
+            color: #2a6291;
+        }
+
+        .empty {
+            text-align: center;
+            color: #8aa0af;
+            padding: 20px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover {
+            background: #5ca7df;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            color: #7791a3;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flower flower1">🌸</div>
+    <div class="flower flower2">🌼</div>
+
+    <div class="butterfly butterfly1">🦋</div>
+    <div class="butterfly butterfly2">🦋</div>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Latihan 2</h1>
+            <p>Menyimpan Riwayat Pembelian dengan localStorage</p>
+        </div>
+
+        <div class="card">
+
+            <h2>Data Pembelian</h2>
+
+            <div class="form-group">
+
+                <label for="total">
+                    Total Pembelian
+                </label>
+
+                <input
+                    type="number"
+                    id="total"
+                    placeholder="Contoh: 150000"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="qty">
+                    Jumlah Produk
+                </label>
+
+                <input
+                    type="number"
+                    id="qty"
+                    placeholder="Contoh: 3"
+                >
+
+            </div>
+
+            <div class="button-group">
+
+                <button id="btnSimpan">
+                    Simpan Riwayat
+                </button>
+
+                <button id="btnTampilkan">
+                    Tampilkan Riwayat
+                </button>
+
+                <button
+                    id="btnReset"
+                    class="btn-reset"
+                >
+                    Hapus Riwayat
+                </button>
+
+            </div>
+
+            <div
+                id="successMessage"
+                class="success-message"
+            >
+                Riwayat pembelian berhasil disimpan.
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Riwayat Pembelian</h2>
+
+            <div id="riwayatList">
+
+                <div class="empty">
+                    Belum ada riwayat pembelian.
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="navigation">
+
+            <a href="latihan3.html">
+                Lanjut ke Latihan 3
+            </a>
+
+        </div>
+
+        <div class="footer">
+            Praktikum jQuery | Latihan 2
+        </div>
+
+    </div>
+
+    <script>
+
+        function simpanRiwayat(total, qty) {
+
+            const riwayat =
+                JSON.parse(
+                    localStorage.getItem('riwayat')
+                ) || [];
+
+            riwayat.push({
+                tanggal: new Date().toISOString(),
+                total: total,
+                qty: qty
+            });
+
+            localStorage.setItem(
+                'riwayat',
+                JSON.stringify(riwayat)
+            );
+        }
+
+
+        function tampilkanRiwayat() {
+
+            const riwayat =
+                JSON.parse(
+                    localStorage.getItem('riwayat')
+                ) || [];
+
+            const riwayatList =
+                $('#riwayatList');
+
+            riwayatList.html('');
+
+
+            if (riwayat.length === 0) {
+
+                riwayatList.html(`
+                    <div class="empty">
+                        Belum ada riwayat pembelian.
+                    </div>
+                `);
+
+                return;
+            }
+
+
+            riwayat.forEach(function(item, index) {
+
+                const tanggal =
+                    new Date(item.tanggal);
+
+                riwayatList.append(`
+
+                    <div class="riwayat-item">
+
+                        <strong>
+                            Pembelian ${index + 1}
+                        </strong>
+
+                        <br>
+
+                        Tanggal:
+                        ${tanggal.toLocaleString('id-ID')}
+
+                        <br>
+
+                        Jumlah Produk:
+                        ${item.qty}
+
+                        <br>
+
+                        Total:
+
+                        <strong>
+                            Rp ${Number(item.total).toLocaleString('id-ID')}
+                        </strong>
+
+                    </div>
+
+                `);
+
+            });
+
+        }
+
+
+        $('#btnSimpan').click(function() {
+
+            const total =
+                Number($('#total').val());
+
+            const qty =
+                Number($('#qty').val());
+
+
+            if (total <= 0 || qty <= 0) {
+
+                alert(
+                    'Total dan jumlah produk harus diisi dengan benar.'
+                );
+
+                return;
+            }
+
+
+            simpanRiwayat(total, qty);
+
+
+            $('#successMessage')
+                .stop(true, true)
+                .fadeIn()
+                .delay(1500)
+                .fadeOut();
+
+
+            $('#total').val('');
+            $('#qty').val('');
+
+
+            tampilkanRiwayat();
+
+        });
+
+
+        $('#btnTampilkan').click(function() {
+
+            tampilkanRiwayat();
+
+        });
+
+
+        $('#btnReset').click(function() {
+
+            localStorage.removeItem('riwayat');
+
+            tampilkanRiwayat();
+
+            $('#successMessage').hide();
+
+        });
+
+
+        $(document).ready(function() {
+
+            tampilkanRiwayat();
+
+        });
+
+    </script>
+
+</body>
+</html>

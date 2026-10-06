@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Latihan 1 - Diskon Keranjang</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #dff4ff, #fff4c7);
+            color: #35516b;
+            overflow-x: hidden;
+        }
+
+        .flower,
+        .butterfly {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .flower {
+            font-size: 35px;
+            animation: floatFlower 4s ease-in-out infinite;
+        }
+
+        .butterfly {
+            font-size: 32px;
+            animation: fly 6s ease-in-out infinite;
+        }
+
+        .flower1 {
+            top: 8%;
+            left: 5%;
+        }
+
+        .flower2 {
+            bottom: 10%;
+            right: 6%;
+            animation-delay: 1s;
+        }
+
+        .butterfly1 {
+            top: 15%;
+            right: 10%;
+        }
+
+        .butterfly2 {
+            bottom: 15%;
+            left: 8%;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatFlower {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        @keyframes fly {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(20px, -15px) rotate(8deg);
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 50px auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+            color: #2a6291;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #66849b;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(80, 130, 170, 0.15);
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #2a6291;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #f5fbff;
+            border-radius: 15px;
+            border-left: 5px solid #75baf0;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 700;
+            color: #2a6291;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #66849b;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantity button {
+            width: 35px;
+            height: 35px;
+            padding: 0;
+            border-radius: 10px;
+            background: #75baf0;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .quantity button:hover {
+            background: #5ca7df;
+        }
+
+        .quantity span {
+            min-width: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .total-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 15px;
+            background: #fff9df;
+            border: 2px solid #f0d777;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .total-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .total-final {
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 2px solid #f0d777;
+            font-size: 20px;
+            font-weight: 700;
+            color: #2a6291;
+        }
+
+        .discount {
+            color: #4d9a62;
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button.action-button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button.action-button:hover {
+            transform: translateY(-2px);
+            background: #5ca7df;
+        }
+
+        button.btn-reset {
+            background: #f0c95c;
+            color: #5f4d16;
+        }
+
+        button.btn-reset:hover {
+            background: #e7b83f;
+        }
+
+        .success-message {
+            display: none;
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #e4f8e9;
+            color: #367347;
+            font-weight: 600;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: #75baf0;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover {
+            background: #5ca7df;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            color: #7791a3;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .quantity {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="flower flower1">🌸</div>
+    <div class="flower flower2">🌼</div>
+
+    <div class="butterfly butterfly1">🦋</div>
+    <div class="butterfly butterfly2">🦋</div>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>Latihan 1</h1>
+            <p>Perhitungan Diskon Keranjang Belanja</p>
+        </div>
+
+        <div class="card">
+
+            <h2>Keranjang Belanja</h2>
+
+            <div id="cartList"></div>
+
+            <div class="total-box" id="cartTotal">
+            </div>
+
+            <div class="button-group">
+
+                <button
+                    id="btnTambahProduk"
+                    class="action-button"
+                >
+                    Tambah Produk
+                </button>
+
+                <button
+                    id="btnHitung"
+                    class="action-button"
+                >
+                    Hitung Total
+                </button>
+
+                <button
+                    id="btnReset"
+                    class="action-button btn-reset"
+                >
+                    Reset
+                </button>
+
+            </div>
+
+            <div
+                id="successMessage"
+                class="success-message"
+            >
+                Total keranjang berhasil dihitung.
+            </div>
+
+        </div>
+
+        <div class="navigation">
+
+            <a href="latihan2.html">
+                Lanjut ke Latihan 2
+            </a>
+
+        </div>
+
+        <div class="footer">
+            Praktikum jQuery | Latihan 1
+        </div>
+
+    </div>
+
+    <script>
+
+        let cart = [
+            {
+                nama: "Paket Website",
+                harga: 75000,
+                qty: 1
+            },
+            {
+                nama: "Jasa UI/UX",
+                harga: 40000,
+                qty: 1
+            }
+        ];
+
+
+        function updateCartUI() {
+
+            const cartList = $('#cartList');
+
+            cartList.html('');
+
+            cart.forEach(function(item, index) {
+
+                cartList.append(`
+                    <div class="cart-item">
+
+                        <div class="product-info">
+
+                            <div class="product-name">
+                                ${item.nama}
+                            </div>
+
+                            <div class="product-price">
+                                Rp ${item.harga.toLocaleString('id-ID')}
+                            </div>
+
+                        </div>
+
+                        <div class="quantity">
+
+                            <button
+                                onclick="kurangiQty(${index})"
+                            >
+                                -
+                            </button>
+
+                            <span>
+                                ${item.qty}
+                            </span>
+
+                            <button
+                                onclick="tambahQty(${index})"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+                `);
+
+            });
+
+
+            let totalHarga = cart.reduce(
+                (sum, item) =>
+                    sum + (item.harga * item.qty),
+                0
+            );
+
+
+            let diskon = 0;
+            let totalSetelahDiskon = totalHarga;
+
+
+            if (totalHarga > 100000) {
+
+                diskon = totalHarga * 0.1;
+
+                totalSetelahDiskon =
+                    totalHarga - diskon;
+
+            }
+
+
+            $('#cartTotal').html(`
+
+                <div class="total-row">
+
+                    <span>
+                        Total Harga
+                    </span>
+
+                    <strong>
+                        Rp ${totalHarga.toLocaleString('id-ID')}
+                    </strong>
+
+                </div>
+
+                <div class="total-row discount">
+
+                    <span>
+                        Diskon 10%
+                    </span>
+
+                    <strong>
+                        Rp ${diskon.toLocaleString('id-ID')}
+                    </strong>
+
+                </div>
+
+                <div class="total-row total-final">
+
+                    <span>
+                        Total Bayar
+                    </span>
+
+                    <strong>
+                        Rp ${totalSetelahDiskon.toLocaleString('id-ID')}
+                    </strong>
+
+                </div>
+
+            `);
+
+        }
+
+
+        function tambahQty(index) {
+
+            cart[index].qty++;
+
+            updateCartUI();
+
+        }
+
+
+        function kurangiQty(index) {
+
+            if (cart[index].qty > 1) {
+
+                cart[index].qty--;
+
+                updateCartUI();
+
+            }
+
+        }
+
+
+        $('#btnTambahProduk').click(function() {
+
+            cart.push({
+                nama: "Paket Basis Data",
+                harga: 50000,
+                qty: 1
+            });
+
+            updateCartUI();
+
+        });
+
+
+        $('#btnHitung').click(function() {
+
+            updateCartUI();
+
+            $('#successMessage')
+                .stop(true, true)
+                .fadeIn()
+                .delay(1500)
+                .fadeOut();
+
+        });
+
+
+        $('#btnReset').click(function() {
+
+            cart = [
+                {
+                    nama: "Paket Website",
+                    harga: 75000,
+                    qty: 1
+                },
+                {
+                    nama: "Jasa UI/UX",
+                    harga: 40000,
+                    qty: 1
+                }
+            ];
+
+            updateCartUI();
+
+            $('#successMessage').hide();
+
+        });
+
+
+        $(document).ready(function() {
+
+            updateCartUI();
+
+        });
+
+    </script>
+
+</body>
+</html>
